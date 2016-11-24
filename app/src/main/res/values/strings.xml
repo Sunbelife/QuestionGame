@@ -1,0 +1,15 @@
+<resources>
+    <string name="strue_Btn">对</string>
+    <string name="sfalse_Btn">错</string>
+    <string name="correct_toast">答对了!</string>
+    <string name="incorrect_toast">答错了!</string>
+    <string name="app_name">地理知识小测验</string>
+    <string name="next_button">下一题</string>
+    <string name="back_button">上一题</string>
+    <string name="question_oceans">太平洋比大西洋大吗?</string>
+       <string name="question_mideast">苏伊士运河连接红海和印度洋吗?</string>
+    <string name="question_africa">非洲约占世界陆地总面积的 50 %,为世界第一大洲吗?</string>
+    <string name="question_americas">美国土著居民是印第安人吗?</string>
+    <string name="question_asia">中国陆地面积约960万平方公里，在世界各国中，仅次于俄罗斯、加拿大，居第三位，差不多同整个欧洲面积相等吗?</string>
+
+</resources>
