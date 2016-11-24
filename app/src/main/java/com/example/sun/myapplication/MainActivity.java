@@ -1,7 +1,10 @@
 package com.example.sun.myapplication;
 
+import android.os.PersistableBundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,9 +28,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
     private int mCurrentIndex = 0;
     private int isTrue;
+    private static final String KEY_INDEX = "index";
+    private static final String TAG = "MainActivity";
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
+        // Log.d(TAG, "Updating question text for question #" + mCurrentIndex,
+//                new Exception());
         mQuestionTextView.setText(question);
     }
 
@@ -39,10 +46,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    /*
+       在处于 onStop onDestroy 时期时会调用如下函数，用来
+       保存 Bundle 到 SaveintanceState 里供每次 onCreate 的 Activity 使用。
+    */
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG,"onSaveinstaceState loaded");
+        outState.putInt(KEY_INDEX,mCurrentIndex);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         mQuestionTextView.setOnClickListener(this);
@@ -58,7 +82,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNextButton.setOnClickListener(this);
 
         updateQuestion();
+
+        Log.d(TAG,"onCreate Bundle Loaded");
 }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG,"onRestart Bundle Loaded");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy Bundle Loaded");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop Bundle Loaded");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume Bundle Loaded");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause Bundle Loaded");
+    }
 
     public void onClick(View view) {
         switch (view.getId()) {
