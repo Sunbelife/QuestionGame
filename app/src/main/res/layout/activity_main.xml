@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 视图 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context="com.example.sun.myapplication.MainActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_main"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              tools:context="com.example.sun.myapplication.QuestionActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_TV"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/score_text_view"
+        android:text="@string/score"
+        android:padding="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,6 +46,7 @@
             android:text="@string/sfalse_Btn"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,4 +66,10 @@
             android:drawableRight="@drawable/next"
             />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/cheat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cheat_button"/>
 </LinearLayout>

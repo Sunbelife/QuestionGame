@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="com.example.sun.myapplication.LoginActivity">
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp" android:layout_width="200dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_TV"
+            android:text="@string/username_tv"
+        />
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:id="@+id/username_ET" android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+    </LinearLayout>
+
+    <!--<LinearLayout android:layout_width="200dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:padding="5dp">-->
+    <!--<TextView-->
+    <!--android:layout_width="50dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/passwd_TV"-->
+    <!--android:text="@string/passwd_tv"-->
+    <!--/>-->
+    <!--<EditText-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:id="@+id/passwd_ET"/>-->
+
+    <!--</LinearLayout>-->
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+    >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_Btn"
+            android:text="@string/login_tv"/>
+
+    </LinearLayout>
+</LinearLayout>
