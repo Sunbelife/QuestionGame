@@ -1,8 +1,6 @@
 package com.example.sun.myapplication;
 
 import android.content.Intent;
-import android.os.PersistableBundle;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,9 +18,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private Button mNextButton;
     private Button mBackButton;
     private Button mCheatButton;
-    private TextView mUsername;
     private TextView mScoreTextview;
     private TextView mQuestionTextView;
+    private TextView mUsernameTextview;
     private Question[] mQuestionBank = new Question[] {
             new Question(R.string.question_oceans, true),
             new Question(R.string.question_mideast, false),
@@ -31,11 +29,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             new Question(R.string.question_asia, true),
     };
     private int mCurrentIndex = 0;
-    private int isTrue;
     private static final String KEY_INDEX = "index";
+    private static final String USER_NAME = "username";
+    private static final String SCORE = "score";
+    private static final String QUESTION_NUM = "questionnum";
     private static final String TAG = "QuestionActivity";
-    private static int score = 0;
-//    private Intent i;
+    private int mScore = 0;
+    private int isTrue = 0;
+    private int mNumcount = 1;
+    private String mUsername = "无名氏";
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
@@ -45,15 +47,19 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void updateScore() {
-        mScoreTextview.setText("得分:" + score);
+        if(mScore < 0) {
+            Toast.makeText(QuestionActivity.this, "你已经输了，积分重置。", Toast.LENGTH_SHORT).show();
+            mScore = 0;
+        }
+        mScoreTextview.setText("得分:" + mScore);
     }
 
     private int checkAnswer(Question q, boolean stat){
         if (q.isAnswerTrue() == stat) {
-            score = score + 5;
+            mScore = mScore + 5;
             return R.string.correct_toast;
         } else {
-            score = score - 5;
+            mScore = mScore - 5;
             return R.string.incorrect_toast;
         }
     }
@@ -61,7 +67,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     /*
        在处于 onStop onDestroy 时期时会调用如下函数，用来
-       保存 Bundle 到 SaveintanceState 里供每次 onCreate 的 Activity 使用。
+       保存 Bundle 到 Oncreate 里的 saveintanceState 里供每次 onCreate 的 Activity 使用。
     */
 
     @Override
@@ -69,16 +75,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         super.onSaveInstanceState(outState);
         Log.d(TAG,"onSaveinstaceState loaded");
         outState.putInt(KEY_INDEX,mCurrentIndex);
+        outState.putString(USER_NAME,mUsername);
+        outState.putInt(SCORE,mScore);
+        outState.putInt(QUESTION_NUM,mNumcount);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (savedInstanceState != null) {
-            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
-        }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         mQuestionTextView.setOnClickListener(this);
@@ -96,50 +101,24 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         mCheatButton = (Button) findViewById(R.id.cheat_button);
         mCheatButton.setOnClickListener(this);
 
-        mScoreTextview = (TextView) findViewById(R.id.score_text_view);
+        mScoreTextview = (TextView) findViewById(R.id.score_Tv);
 
-
+        mUsernameTextview = (TextView) findViewById(R.id.user_TV);
+        mUsername = getIntent().getStringExtra(USER_NAME);
+        mUsernameTextview.setText("哈喽，" + mUsername + "，这是你的第" + mNumcount + "题");
 //        mUsername = (TextView) findViewById(R.id.user_TV);
 //        mUsername.setText(i.getBundleExtra("username").to);
 
-
-
-        updateQuestion();
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
+            mUsername = savedInstanceState.getString(USER_NAME);
+            mScore = savedInstanceState.getInt(SCORE);
+            mNumcount = savedInstanceState.getInt(QUESTION_NUM);
+            mUsernameTextview.setText("哈喽，" + mUsername + "，这是你的第" + mNumcount + "题");
+        }
         updateScore();
-
-        Log.d(TAG,"onCreate Bundle Loaded");
+        updateQuestion();
 }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG,"onRestart Bundle Loaded");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG,"onDestroy Bundle Loaded");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG,"onStop Bundle Loaded");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG,"onResume Bundle Loaded");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG,"onPause Bundle Loaded");
-    }
-
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.true_Btn:
@@ -153,6 +132,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 updateScore();
                 break;
             case R.id.next_Btn:
+                mNumcount++;
+                mUsernameTextview.setText("哈喽，" + mUsername + "，这是你的第" + mNumcount + "题");
             case R.id.question_text_view:
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
@@ -162,10 +143,43 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 updateQuestion();
                 break;
             case R.id.cheat_button:
-
+                Intent i = new Intent(QuestionActivity.this, CheatActivity.class);
+                i.putExtra("answeristrue",mQuestionBank[mCurrentIndex].isAnswerTrue());
+                mScore -= 5;
+                startActivity(i);
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG,"onRestart");
     }
 }

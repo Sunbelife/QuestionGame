@@ -26,9 +26,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_Btn:
-                Intent i = new Intent();
-                i.putExtra("username", mUsernameET.getText());
-                startActivity(new Intent(LoginActivity.this, QuestionActivity.class));
+                Intent i = new Intent(LoginActivity.this, QuestionActivity.class);
+                i.putExtra("username", mUsernameET.getText().toString());
+                startActivity(i);
                 break;
             default:
                 break;
