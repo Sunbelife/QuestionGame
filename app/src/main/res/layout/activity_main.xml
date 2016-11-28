@@ -13,25 +13,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/user_TV"
+        android:padding="5dp"
     />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/score_text_view"
+        android:id="@+id/score_Tv"
         android:text="@string/score"
-        android:padding="20dp"/>
+        android:padding="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/question_text_view"
-        android:padding="24dp"/>
+        android:padding="2dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="24dp">
 
         <Button
             android:layout_width="wrap_content"
@@ -44,7 +46,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/false_Btn"
             android:text="@string/sfalse_Btn"
-            />
+        />
     </LinearLayout>
 
     <LinearLayout
@@ -57,19 +59,19 @@
             android:id="@+id/back_Btn"
             android:text="@string/back_button"
             android:drawableLeft="@drawable/back"
-            />
+        />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/next_Btn"
             android:text="@string/next_button"
             android:drawableRight="@drawable/next"
-            />
+        />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/cheat_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cheat_button"/>
+    <!--<Button-->
+        <!--android:id="@+id/cheat_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/cheat_button"/>-->
 </LinearLayout>

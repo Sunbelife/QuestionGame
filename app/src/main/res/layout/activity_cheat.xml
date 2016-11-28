@@ -15,7 +15,7 @@
         android:padding="24dp"
         android:text="@string/warning_text"/>
     <TextView
-        android:id="@+id/answer_text_view"
+        android:id="@+id/answer_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
@@ -24,7 +24,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/showAnswerButton"
+        android:id="@+id/showAnswerBtn"
         android:text="@string/show_answer_button"
+    />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backtoQues_Btn"
+        android:text="@string/backtoQues_Text"
     />
 </LinearLayout>

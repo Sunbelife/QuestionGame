@@ -1,6 +1,8 @@
 package com.example.sun.myapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +37,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private static final String QUESTION_NUM = "questionnum";
     private static final String TAG = "QuestionActivity";
     private int mScore = 0;
-    private int isTrue = 0;
+    private boolean isTrue = false;
     private int mNumcount = 1;
     private String mUsername = "无名氏";
 
@@ -48,19 +50,28 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private void updateScore() {
         if(mScore < 0) {
-            Toast.makeText(QuestionActivity.this, "你已经输了，积分重置。", Toast.LENGTH_SHORT).show();
-            mScore = 0;
+            new AlertDialog.Builder(QuestionActivity.this)
+                    .setTitle("你输啦")
+                    .setMessage("您已经输了，积分清零，重新开始吧。")
+                    .setPositiveButton("重新开始", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent z = new Intent(QuestionActivity.this,LoginActivity.class);
+                            startActivity(z);
+                        }
+                    }).show();
+        } else {
+            mScoreTextview.setText("得分:" + mScore);
         }
-        mScoreTextview.setText("得分:" + mScore);
     }
 
-    private int checkAnswer(Question q, boolean stat){
+    private boolean checkAnswer(Question q, boolean stat){
         if (q.isAnswerTrue() == stat) {
             mScore = mScore + 5;
-            return R.string.correct_toast;
+            return true;
         } else {
             mScore = mScore - 5;
-            return R.string.incorrect_toast;
+            return false;
         }
     }
 
@@ -98,8 +109,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         mNextButton = (Button) findViewById(R.id.next_Btn);
         mNextButton.setOnClickListener(this);
 
-        mCheatButton = (Button) findViewById(R.id.cheat_button);
-        mCheatButton.setOnClickListener(this);
+//        mCheatButton = (Button) findViewById(R.id.cheat_button);
+//        mCheatButton.setOnClickListener(this);
 
         mScoreTextview = (TextView) findViewById(R.id.score_Tv);
 
@@ -109,6 +120,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 //        mUsername = (TextView) findViewById(R.id.user_TV);
 //        mUsername.setText(i.getBundleExtra("username").to);
 
+        // 还原 InstanceState
+
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX);
             mUsername = savedInstanceState.getString(USER_NAME);
@@ -116,6 +129,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             mNumcount = savedInstanceState.getInt(QUESTION_NUM);
             mUsernameTextview.setText("哈喽，" + mUsername + "，这是你的第" + mNumcount + "题");
         }
+
+        // 初始化题目和分数
+
         updateScore();
         updateQuestion();
 }
@@ -123,12 +139,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.true_Btn:
                 isTrue = checkAnswer(mQuestionBank[mCurrentIndex],true);
-                Toast.makeText(view.getContext(),isTrue,Toast.LENGTH_SHORT).show();
+                ShowResult(isTrue,view);
                 updateScore();
                 break;
             case R.id.false_Btn:
                 isTrue = checkAnswer(mQuestionBank[mCurrentIndex],false);
-                Toast.makeText(view.getContext(),isTrue,Toast.LENGTH_SHORT).show();
+                ShowResult(isTrue,view);
                 updateScore();
                 break;
             case R.id.next_Btn:
@@ -141,12 +157,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             case R.id.back_Btn:
                 mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
                 updateQuestion();
-                break;
-            case R.id.cheat_button:
-                Intent i = new Intent(QuestionActivity.this, CheatActivity.class);
-                i.putExtra("answeristrue",mQuestionBank[mCurrentIndex].isAnswerTrue());
-                mScore -= 5;
-                startActivity(i);
                 break;
             default:
                 break;
@@ -181,5 +191,28 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG,"onRestart");
+    }
+    private void ShowResult(boolean istrue, View view) {
+        if(istrue) {
+            new AlertDialog.Builder(view.getContext())
+                    .setTitle("不错嘛你")
+                    .setMessage("答对了，加5分")
+                    .setPositiveButton("继续答题", null)
+                    .show();
+        } else {
+            new AlertDialog.Builder(view.getContext())
+                    .setTitle("不行嘛你")
+                    .setMessage("答错了，减5分")
+                    .setPositiveButton("继续答题", null)
+                    .setNegativeButton("偷看答案", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent z = new Intent(QuestionActivity.this, CheatActivity.class);
+                            z.putExtra("answeristrue",mQuestionBank[mCurrentIndex].isAnswerTrue());
+                            startActivity(z);
+                        }
+                    })
+                    .show();
+        }
     }
 }
