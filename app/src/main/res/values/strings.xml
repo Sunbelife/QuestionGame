@@ -20,9 +20,11 @@
     <string name="cheat_button">偷看答案!</string>
     <string name="judgment_toast">偷看答案可不好.</string>
     <string name="backtoQues_Text">回去继续做题</string>
-    <string name="version_name">0.1</string>
-    <string name="version_code">1</string>
+    <string name="version_name">0.2</string>
+    <string name="version_code">2</string>
     <string name="welcome_text">欢迎来到地理知识小测验!</string>
     <string name="welcome_intro">\n这里有几道题测测你对地理常识的了解程度。\n现在，快在下面输入您的姓名，开始这一激动人心的测试吧！
     </string>
+    <string name="isacheater_str">是</string>
+    <string name="welcome_report">您的答题报告如下：</string>
 </resources>

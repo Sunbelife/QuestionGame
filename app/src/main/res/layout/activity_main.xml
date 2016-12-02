@@ -12,6 +12,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/isaCheater_Tv"
+        android:text="@string/isacheater_str"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cheat_Tv"
+        android:padding="5dp"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/user_TV"
         android:padding="5dp"
     />
@@ -39,14 +53,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/true_Btn"
-            android:text="@string/strue_Btn"/>
+            android:text="@string/strue_Btn" tools:ignore="ButtonStyle"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/false_Btn"
             android:text="@string/sfalse_Btn"
-        />
+            tools:ignore="ButtonStyle"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,14 +73,14 @@
             android:id="@+id/back_Btn"
             android:text="@string/back_button"
             android:drawableLeft="@drawable/back"
-        />
+            tools:ignore="ButtonStyle,RtlHardcoded"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/next_Btn"
             android:text="@string/next_button"
             android:drawableRight="@drawable/next"
-        />
+            tools:ignore="ButtonStyle,RtlHardcoded"/>
     </LinearLayout>
 
     <!--<Button-->
